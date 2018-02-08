@@ -7,13 +7,13 @@
     tools:context="com.example.android.ereport.LoginActivity">
 
     <EditText
-        android:id="@+id/btn_login_email"
+        android:id="@+id/et_login_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_email" />
 
     <EditText
-        android:id="@+id/btn_login_password"
+        android:id="@+id/et_login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_password" />

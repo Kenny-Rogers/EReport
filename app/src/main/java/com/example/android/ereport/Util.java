@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 public class Util {
     //holds the IP ADDRESS or URL of the server
-    public static final String SERVER_URL = "http://192.168.8.100/";
+    public static final String SERVER_URL = "http://192.168.43.18/";
     //variables for alarm activity
     private static AlarmManager alarmManager;
     private static PendingIntent pendingIntent;
