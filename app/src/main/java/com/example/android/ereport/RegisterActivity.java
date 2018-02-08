@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     EditText et_first_name, et_last_name, et_other_name;
-    EditText et_telephone, et_email, et_password;
+    EditText et_telephone, et_email, et_password, et_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +38,11 @@ public class RegisterActivity extends AppCompatActivity {
         et_other_name = findViewById(R.id.other_names);
         et_telephone = findViewById(R.id.telephone);
         et_password = findViewById(R.id.password);
+        et_address = findViewById(R.id.address);
     }
 
     public void sign_up(View view) {
-        final String first_name, last_name, other_names, telephone, email, password, url;
+        final String first_name, last_name, other_names, telephone, email, password, address, url;
 
         //server API to confirm mobile number
         url = Util.SERVER_URL + "final_proj_api/public/send_message.php";
@@ -53,9 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
         telephone = et_telephone.getText().toString();
         password = et_password.getText().toString();
         email = et_email.getText().toString();
+        address = et_address.getText().toString();
 
         //checking if the fields are not empty
-        if (first_name.isEmpty() || last_name.isEmpty() || other_names.isEmpty() || telephone.isEmpty()
+        if (first_name.isEmpty() || last_name.isEmpty() || telephone.isEmpty()
                 || email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please complete the form", Toast.LENGTH_SHORT).show();
         } else {
@@ -72,7 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sending the data to confirmation page
                             Intent intent = new Intent(getApplicationContext(), TelephoneConfirmationActivity.class);
                             intent.putExtra("code", response.getInt("code") + "");
-                            //intent.putExtra("first");
+                            intent.putExtra("first_name", first_name);
+                            intent.putExtra("last_name", last_name);
+                            intent.putExtra("other_names", other_names);
+                            intent.putExtra("telephone", telephone);
+                            intent.putExtra("email", email);
+                            intent.putExtra("password", password);
+                            intent.putExtra("address", address);
 
                             startActivity(intent);
                         } else {
