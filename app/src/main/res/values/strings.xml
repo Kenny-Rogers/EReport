@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">EReport</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register">Sign Up</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="other_names">Other Names</string>
+    <string name="telephone">Telephone</string>
+    <string name="address">Address</string>
+    <string name="code">Verification Code</string>
+    <string name="verify">Verify</string>
+</resources>
