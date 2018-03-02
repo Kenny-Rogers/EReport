@@ -25,7 +25,6 @@ public class DetailInfoViewActivity extends AppCompatActivity {
         //getting the id of the announcement from the intent extras
         Intent intent = getIntent();
         String extras = intent.getStringExtra("announcement_id");
-        // Toast.makeText(this, extras, Toast.LENGTH_SHORT).show();
         long announcement_id = Long.parseLong(extras);
 
         //setting up to fetch the info from the local db
@@ -37,11 +36,10 @@ public class DetailInfoViewActivity extends AppCompatActivity {
 
         //initializing the UI elements
         tv_title = findViewById(R.id.tv_title);
-        tv_message = findViewById(R.id.tv_description);
+        tv_message = findViewById(R.id.tv_content);
 
         //setting the details to the screen
         tv_title.setText(announcement.getTitle());
         tv_message.setText(announcement.getMessage());
-
     }
 }
