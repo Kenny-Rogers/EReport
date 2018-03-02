@@ -1,9 +1,7 @@
 package com.example.android.ereport.activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,13 +12,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.android.ereport.R;
 import com.example.android.ereport.fragments.AnnouncementListFragment;
 import com.example.android.ereport.models.Announcement;
 import com.example.android.ereport.models.App;
+import com.example.android.ereport.utils.NetworkUtil;
+import com.example.android.ereport.utils.Util;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import io.objectbox.Box;
 import io.objectbox.BoxStore;
@@ -37,14 +46,14 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -65,16 +74,48 @@ public class HomeActivity extends AppCompatActivity
         announcements = boxStore.boxFor(Announcement.class);
     }
 
+    //gets latest announcements
     private void sync_data() {
-//        String image_url = "imsdsd.jpg";
-//        String title = "Wanted";
-//        String message = "This man is wanted";
-//
-//        Announcement announcement = new Announcement(image_url, title, message);
-//
-//        long status = announcements.put(announcement);
+        final String date;
+        String url;
+        if (announcements.getAll().isEmpty()) {
+            date = "";
+        } else {
+            ArrayList<Announcement> list_announcements = (ArrayList<Announcement>) announcements.getAll();
+            int count = list_announcements.size();
+            Announcement announcement = list_announcements.get(count - 1);
+            date = announcement.getDate();
+        }
 
-        Toast.makeText(this, "New data inserted", Toast.LENGTH_SHORT).show();
+        url = Util.SERVER_URL + "final_proj_api/public/get_users_list.php?user_type=announcement&date=" + date;
+
+        StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray responsearray = new JSONArray(response);
+                    for (int i = 0; i < responsearray.length(); i++) {
+                        JSONObject object = responsearray.getJSONObject(i);
+                        Announcement announcement = new Announcement();
+                        announcement.setImage(object.getString("image"));
+                        announcement.setDate(object.getString("date_published"));
+                        announcement.setMessage(object.getString("message"));
+                        announcement.setTitle(object.getString("title"));
+                        announcements.put(announcement);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(HomeActivity.this, "Data returned", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(HomeActivity.this, "No new announcements found", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        NetworkUtil.getInstance(getApplicationContext()).addToRequestQueue(request);
     }
 
 

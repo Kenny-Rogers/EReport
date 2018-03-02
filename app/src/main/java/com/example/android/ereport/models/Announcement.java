@@ -14,16 +14,17 @@ public class Announcement {
     private String image;
     private String title;
     private String message;
-
+    private String date;
 
     public Announcement() {
     }
 
-    public Announcement(Long id, String image, String title, String message) {
+    public Announcement(Long id, String image, String title, String message, String date) {
         this.id = id;
         this.image = image;
         this.title = title;
         this.message = message;
+        this.date = date;
     }
 
     public Announcement(String image, String title, String message) {
@@ -62,5 +63,13 @@ public class Announcement {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

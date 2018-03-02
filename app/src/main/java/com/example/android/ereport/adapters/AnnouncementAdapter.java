@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.android.ereport.R;
 import com.example.android.ereport.models.Announcement;
+import com.example.android.ereport.utils.Util;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,15 +36,18 @@ public class AnnouncementAdapter extends ArrayAdapter<Announcement> {
             announcement_view = inflater.inflate(R.layout.list_info_view, null);
         }
 
-        ImageView image = announcement_view.findViewById(R.id.iv_image);
+        ImageView image = announcement_view.findViewById(R.id.image_of_info);
         TextView title = announcement_view.findViewById(R.id.tv_title);
         TextView description = announcement_view.findViewById(R.id.tv_description);
 
         Announcement announcement = getItem(position);
 
-        //image.setImageURI();
+        //setting the details
+        String image_url = Util.SERVER_URL + "final_proj_api/public/images/" + announcement.getImage();
         title.setText(announcement.getTitle());
         description.setText(announcement.getMessage());
+        Picasso.with(getContext()).load(image_url).into(image);
+
         return announcement_view;
     }
 }
