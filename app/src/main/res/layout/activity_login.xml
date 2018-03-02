@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.android.ereport.LoginActivity">
+    tools:context="com.example.android.ereport.activities.LoginActivity">
 
     <EditText
         android:id="@+id/et_login_email"

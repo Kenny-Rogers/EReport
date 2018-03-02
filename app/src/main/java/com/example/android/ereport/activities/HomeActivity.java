@@ -1,9 +1,12 @@
-package com.example.android.ereport;
+package com.example.android.ereport.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,10 +15,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.example.android.ereport.R;
+import com.example.android.ereport.fragments.AnnouncementListFragment;
+import com.example.android.ereport.models.Announcement;
+import com.example.android.ereport.models.App;
+
+import io.objectbox.Box;
+import io.objectbox.BoxStore;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    Box<Announcement> announcements;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +54,30 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        local_storage_setup();
+        sync_data();
     }
+
+    private void local_storage_setup() {
+        //ObjectBox set up
+        BoxStore boxStore = ((App) getApplication()).getBoxStore();
+        announcements = boxStore.boxFor(Announcement.class);
+    }
+
+    private void sync_data() {
+//        String image_url = "imsdsd.jpg";
+//        String title = "Wanted";
+//        String message = "This man is wanted";
+//
+//        Announcement announcement = new Announcement(image_url, title, message);
+//
+//        long status = announcements.put(announcement);
+
+        Toast.makeText(this, "New data inserted", Toast.LENGTH_SHORT).show();
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -79,9 +116,11 @@ public class HomeActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Fragment fragment = null;
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_announcement) {
             // Handle the camera action
+            fragment = new AnnouncementListFragment();
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -92,8 +131,18 @@ public class HomeActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else {
+            fragment = new AnnouncementListFragment();
         }
 
+        if (fragment != null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+            fragmentTransaction.replace(R.id.screen_area, fragment);
+
+            fragmentTransaction.commit();
+        }
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

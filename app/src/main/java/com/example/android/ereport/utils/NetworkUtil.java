@@ -1,4 +1,4 @@
-package com.example.android.ereport;
+package com.example.android.ereport.utils;
 
 import android.content.Context;
 

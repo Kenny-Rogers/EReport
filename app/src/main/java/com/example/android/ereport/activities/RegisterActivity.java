@@ -1,4 +1,4 @@
-package com.example.android.ereport;
+package com.example.android.ereport.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.android.ereport.R;
+import com.example.android.ereport.utils.NetworkUtil;
+import com.example.android.ereport.utils.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
