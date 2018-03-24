@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.android.ereport.R;
 import com.example.android.ereport.fragments.AnnouncementListFragment;
+import com.example.android.ereport.fragments.PoliceStationsFragment;
 import com.example.android.ereport.models.Announcement;
 import com.example.android.ereport.models.App;
 import com.example.android.ereport.utils.NetworkUtil;
@@ -160,10 +161,11 @@ public class HomeActivity extends AppCompatActivity
         Fragment fragment = null;
 
         if (id == R.id.nav_announcement) {
-            // Handle the camera action
+            // Handle the announcements action
             fragment = new AnnouncementListFragment();
         } else if (id == R.id.nav_gallery) {
-
+            //handle the police stations action
+            fragment = new PoliceStationsFragment();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
