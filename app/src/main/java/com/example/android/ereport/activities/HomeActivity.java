@@ -23,6 +23,7 @@ import com.example.android.ereport.fragments.AnnouncementListFragment;
 import com.example.android.ereport.fragments.PoliceStationsFragment;
 import com.example.android.ereport.models.Announcement;
 import com.example.android.ereport.models.App;
+import com.example.android.ereport.models.Secretariat;
 import com.example.android.ereport.utils.NetworkUtil;
 import com.example.android.ereport.utils.Util;
 
@@ -39,6 +40,7 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     Box<Announcement> announcements;
+    Box<Secretariat> secretariats;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +75,15 @@ public class HomeActivity extends AppCompatActivity
         //ObjectBox set up
         BoxStore boxStore = ((App) getApplication()).getBoxStore();
         announcements = boxStore.boxFor(Announcement.class);
+        secretariats = boxStore.boxFor(Secretariat.class);
     }
 
-    //gets latest announcements
+    //gets latest details
     private void sync_data() {
         final String date;
         String url;
+
+        //announcements
         if (announcements.getAll().isEmpty()) {
             date = "";
         } else {
@@ -117,6 +122,52 @@ public class HomeActivity extends AppCompatActivity
         });
 
         NetworkUtil.getInstance(getApplicationContext()).addToRequestQueue(request);
+
+
+        //secretariats
+        String sec_date;
+        if (secretariats.getAll().isEmpty()) {
+            sec_date = "";
+        } else {
+            ArrayList<Secretariat> list_secretariats = (ArrayList<Secretariat>) secretariats.getAll();
+            int count = list_secretariats.size();
+            Secretariat secretariat = list_secretariats.get(count - 1);
+            sec_date = secretariat.getDate_published();
+        }
+
+        url = Util.SERVER_URL + "final_proj_api/public/get_users_list.php?user_type=secretariat&date=" + date;
+
+        StringRequest sec_request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray responsearray = new JSONArray(response);
+                    for (int i = 0; i < responsearray.length(); i++) {
+                        JSONObject object = responsearray.getJSONObject(i);
+                        Secretariat secretariat = new Secretariat();
+                        secretariat.setType(object.getString("type"));
+                        secretariat.setRegion(object.getString("region"));
+                        secretariat.setName(object.getString("name"));
+                        secretariat.setRep_id(object.getString("rep_id"));
+                        secretariat.setLat(object.getString("lat"));
+                        secretariat.setLng(object.getString("lng"));
+                        secretariat.setDate_published(object.getString("date_published"));
+                        secretariats.put(secretariat);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(HomeActivity.this, "Secretariat Data returned", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(HomeActivity.this, "No new Secretariat found", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        NetworkUtil.getInstance(getApplicationContext()).addToRequestQueue(sec_request);
+
     }
 
 
