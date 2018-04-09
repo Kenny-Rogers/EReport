@@ -38,6 +38,7 @@ import io.objectbox.BoxStore;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = "HomeActivity";
 
     Box<Announcement> announcements;
     Box<Secretariat> secretariats;
@@ -135,11 +136,13 @@ public class HomeActivity extends AppCompatActivity
             sec_date = secretariat.getDate_published();
         }
 
-        url = Util.SERVER_URL + "final_proj_api/public/get_users_list.php?user_type=secretariat&date=" + date;
+        url = Util.SERVER_URL + "final_proj_api/public/get_users_list.php?user_type=secretariat&date=" + sec_date;
 
         StringRequest sec_request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
+
                 try {
                     JSONArray responsearray = new JSONArray(response);
                     for (int i = 0; i < responsearray.length(); i++) {
@@ -153,7 +156,10 @@ public class HomeActivity extends AppCompatActivity
                         secretariat.setLng(object.getString("lng"));
                         secretariat.setDate_published(object.getString("date_published"));
                         secretariats.put(secretariat);
+
+                        Toast.makeText(HomeActivity.this, "Data inserted " + secretariats.getAll().size(), Toast.LENGTH_SHORT).show();
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
