@@ -60,10 +60,6 @@ public class PoliceStationsFragment extends Fragment implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         if (secretariats.getAll().size() != 0) {
             Log.i(TAG, "onMapReady: " + "Secretariat data found");
@@ -71,6 +67,7 @@ public class PoliceStationsFragment extends Fragment implements OnMapReadyCallba
 
             for (int i = 0; i < secretariatArrayList.size(); i++) {
                 Secretariat sec_object = secretariatArrayList.get(i);
+                // Add marker and move the camera
                 LatLng sec = new LatLng(Double.parseDouble(sec_object.getLat()), Double.parseDouble(sec_object.getLng()));
                 mMap.addMarker(new MarkerOptions().position(sec).title(sec_object.getName()));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(sec));
