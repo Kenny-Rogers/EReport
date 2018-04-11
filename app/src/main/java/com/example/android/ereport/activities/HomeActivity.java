@@ -21,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.android.ereport.R;
 import com.example.android.ereport.fragments.AnnouncementListFragment;
 import com.example.android.ereport.fragments.PoliceStationsFragment;
+import com.example.android.ereport.fragments.ReportIncident;
 import com.example.android.ereport.models.Announcement;
 import com.example.android.ereport.models.App;
 import com.example.android.ereport.models.Secretariat;
@@ -50,14 +51,6 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -224,7 +217,8 @@ public class HomeActivity extends AppCompatActivity
             //handle the police stations action
             fragment = new PoliceStationsFragment();
         } else if (id == R.id.nav_slideshow) {
-
+            //handle the report incident
+            fragment = new ReportIncident();
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {

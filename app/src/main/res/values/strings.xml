@@ -11,6 +11,8 @@
     <string name="address">Address</string>
     <string name="code">Verification Code</string>
     <string name="verify">Verify</string>
+    <string name="nature_of_issue">Description of Issue</string>
+    <string name="type_of_issue">Type of Issue</string>
     <string name="title_activity_home">HomeActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
