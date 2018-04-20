@@ -15,9 +15,18 @@
     <string name="type_of_issue">Type of Issue</string>
     <string name="title_activity_home">HomeActivity</string>
 
+    <string-array name="nature_of_issue_array">
+        <item>Choose .... </item>
+        <item>Armed Robbery</item>
+        <item>Road Accident</item>
+        <item>Domestic Violence</item>
+        <item>Human Trafficking</item>
+    </string-array>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+    <string name="file_complain">file complain</string>
 </resources>

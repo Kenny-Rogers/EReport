@@ -100,6 +100,8 @@ public class LocationTracker extends Service {
     }
 
     public void onLocationChanged(Location location) {
-        onDestroy();
+        Log.i(TAG, "onLocationChanged: " + location.toString());
+        //onDestroy();
     }
+
 }

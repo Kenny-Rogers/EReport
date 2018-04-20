@@ -1,5 +1,6 @@
 package com.example.android.ereport.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,6 +26,7 @@ import com.example.android.ereport.fragments.ReportIncident;
 import com.example.android.ereport.models.Announcement;
 import com.example.android.ereport.models.App;
 import com.example.android.ereport.models.Secretariat;
+import com.example.android.ereport.utils.LocationTracker;
 import com.example.android.ereport.utils.NetworkUtil;
 import com.example.android.ereport.utils.Util;
 
@@ -43,6 +45,7 @@ public class HomeActivity extends AppCompatActivity
 
     Box<Announcement> announcements;
     Box<Secretariat> secretariats;
+    Intent trackingIntent;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,9 @@ public class HomeActivity extends AppCompatActivity
 
         local_storage_setup();
         sync_data();
+
+        trackingIntent = new Intent(this, LocationTracker.class);
+        startService(trackingIntent);
     }
 
     private void local_storage_setup() {
@@ -241,4 +247,12 @@ public class HomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(trackingIntent);
+    }
+
+
 }
