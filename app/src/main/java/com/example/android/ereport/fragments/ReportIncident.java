@@ -1,6 +1,7 @@
 package com.example.android.ereport.fragments;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ import okhttp3.RequestBody;
 public class ReportIncident extends Fragment {
     private static final String TAG = "ReportIncident";
     protected double lat, lng;
+    ProgressDialog progressBar;
     Spinner sp_type_issue;
     ArrayAdapter<CharSequence> sp_adapter;
     EditText et_nature_of_issue;
@@ -191,6 +193,11 @@ public class ReportIncident extends Fragment {
             Log.i(TAG, "Fragment: onActivityResult: " + intent_data_return);
             nature_of_issue = et_nature_of_issue.getText().toString();
 
+            progressBar = new ProgressDialog(getActivity());
+            progressBar.setTitle("Sending Complaint Details");
+            progressBar.setMessage("Please wait...");
+            progressBar.show();
+            progressBar.setCancelable(false);
 
             Thread t = new Thread(new Runnable() {
                 @Override
@@ -202,7 +209,7 @@ public class ReportIncident extends Fragment {
                     //TODO:: change complainant_id to reflect account signed in
                     RequestBody requestBody;
 
-                    if (!intent_data_return.equals("")) {
+                    if (intent_data_return != null) {
                         File f = new File(intent_data_return);
                         String content_type = getMimeType(f.getPath());
                         Log.i(TAG, "content_type for file to be uploaded: " + content_type);
@@ -245,17 +252,17 @@ public class ReportIncident extends Fragment {
                         }
 
                         try {
-                            JSONObject response_object = new JSONObject(response.message());
+                            JSONObject response_object = new JSONObject(response.body().string());
                             if (response_object.getString("status").equals("1")) {
-                                Toast.makeText(getActivity(), "Complaint filed Successful", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "run: server response" + " Complaint filed Successful");
                             } else {
-                                Toast.makeText(getActivity(), "Complaint filed Unsuccessful", Toast.LENGTH_SHORT).show();
+                                Log.i(TAG, "run: server response" + " Complaint filed Unsuccessful");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                        //progressBar.dismiss();
+                        progressBar.dismiss();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
