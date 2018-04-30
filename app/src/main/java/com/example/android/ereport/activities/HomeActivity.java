@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,6 +30,7 @@ import com.example.android.ereport.models.Secretariat;
 import com.example.android.ereport.utils.LocationTracker;
 import com.example.android.ereport.utils.NetworkUtil;
 import com.example.android.ereport.utils.Util;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,7 @@ import io.objectbox.BoxStore;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "HomeActivity";
+    String intent_data_return;
 
     Box<Announcement> announcements;
     Box<Secretariat> secretariats;
@@ -175,8 +178,6 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -185,6 +186,18 @@ public class HomeActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            intent_data_return = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+            Log.i(TAG, "onActivityResult: " + intent_data_return);
+        }
+    }
+
+    public String getData() {
+        return this.intent_data_return;
     }
 
     @Override
