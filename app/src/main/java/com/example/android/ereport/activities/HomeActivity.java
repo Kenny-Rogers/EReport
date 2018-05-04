@@ -1,11 +1,15 @@
 package com.example.android.ereport.activities;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -101,6 +105,7 @@ public class HomeActivity extends AppCompatActivity
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                notification();
                 try {
                     JSONArray responsearray = new JSONArray(response);
                     for (int i = 0; i < responsearray.length(); i++) {
@@ -111,6 +116,7 @@ public class HomeActivity extends AppCompatActivity
                         announcement.setMessage(object.getString("message"));
                         announcement.setTitle(object.getString("title"));
                         announcements.put(announcement);
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -176,6 +182,18 @@ public class HomeActivity extends AppCompatActivity
 
         NetworkUtil.getInstance(getApplicationContext()).addToRequestQueue(sec_request);
 
+    }
+
+    private void notification() {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setSmallIcon(R.drawable.ghana_police)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ghana_police))
+                .setContentTitle("Notification from Ghana Police")
+                .setContentText("Hello nad welcome to  Ghana Police");
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1, notificationBuilder.build());
     }
 
     @Override
