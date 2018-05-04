@@ -256,11 +256,11 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
             //handle the report incident
             fragment = new ReportIncident();
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+//        } else if (id == R.id.nav_manage) {
+//
+//        } else if (id == R.id.nav_share) {
+//
+//        } else if (id == R.id.nav_send) {
 
         } else {
             fragment = new AnnouncementListFragment();

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2196F3"
     android:minHeight="@dimen/list_item_height"
     android:orientation="horizontal">
 
@@ -24,6 +25,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="bottom"
+            android:textAllCaps="true"
+            android:textColor="#fff"
             android:textStyle="bold"
             tools:text="Title" />
 
@@ -33,6 +36,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:gravity="top"
+            android:textColor="#E8EAF6"
             tools:text="Description" />
     </LinearLayout>
 </LinearLayout>
